@@ -5,6 +5,14 @@ provider:
   runtime: nodejs12.x
   environment:
     NODE_ENV: dev
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  deploymentBucket:
+    name: ${self:custom.bucketname}
+
+custom:
+  basename: ${self:service}-handler
+  bucketname: ${self:custom.basename}-${self:provider.region}-artifacts
 
 plugins:
   - serverless-plugin-typescript
