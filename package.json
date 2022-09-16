@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "local": "rimraf .build && serverless offline",
-    "deploy": "serverless deploy",
+    "deploy": "serverless deploy --region us-east-1 --verbose",
     "test": "cross-env NODE_ENV=dev jest --passWithNoTests",
     "coverage": "nyc --reporter lcov npm run test"
   },
@@ -14,6 +14,7 @@
     "lint"
   ],
   "dependencies": {
+    "serverless": "^3.20.0",
     "axios": "^0.27.2",
     "chai": "^4.3.6",
     "currency-symbol-map": "^5.1.0",
