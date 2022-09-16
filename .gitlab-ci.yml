@@ -29,7 +29,6 @@ deploy_develop:
     - install_dependencies
     - test
   script:
-    - npm run build
     - npm run deploy --stage dev
 
   # save build artifacts for publishing
@@ -48,7 +47,6 @@ deploy_production:
   environment:
     name: production
   script:
-    - npm run build
     - npm run deploy --stage prod
 
   # save build artifacts for publishing
@@ -67,7 +65,6 @@ deploy_test:
   environment:
     name: test
   script:
-    - npm run build
     - npm run deploy --stage test
 
   # save build artifacts for publishing
