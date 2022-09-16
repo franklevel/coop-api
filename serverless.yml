@@ -29,7 +29,7 @@ package:
 functions:
   trace:
     name: ${self:custom.basename}-traces-dev
-    description: "API dev environment"
+    description: "traces handler dev"
     handler: app/handler.trace
     timeout: 10
     events:
@@ -38,7 +38,7 @@ functions:
           method: post
   statistics:
     name: ${self:custom.basename}-statistics-dev
-    description: "API dev environment"
+    description: "statistics handler dev"
     handler: app/handler.statistics
     timeout: 10
     events:
