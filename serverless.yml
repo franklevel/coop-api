@@ -17,6 +17,7 @@ custom:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
+  - serverless-deployment-bucket
 
 package:
   exclude:
@@ -27,6 +28,8 @@ package:
 
 functions:
   trace:
+    name: ${self:custom.basename}-traces-dev
+    description: "API dev environment"
     handler: app/handler.trace
     timeout: 10
     events:
@@ -34,6 +37,8 @@ functions:
           path: traces
           method: post
   statistics:
+    name: ${self:custom.basename}-statistics-dev
+    description: "API dev environment"
     handler: app/handler.statistics
     timeout: 10
     events:
