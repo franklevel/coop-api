@@ -39,7 +39,7 @@ export class TracesController extends TracesService {
 
       const {
         data: { rates },
-      } = await this.currencyService.getMockedRates(currency);
+      } = await this.currencyService.getRates(currency);
 
       const fromUSA = distance({ lat, lon }, US_COORDS);
       if (country && fromUSA) {
