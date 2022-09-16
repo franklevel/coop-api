@@ -29,12 +29,6 @@ deploy_develop:
     - install_dependencies
     - test
   script:
-    - serverless config credentials \
-      --provider aws \
-      --key ${env:AWS_ACCESS_API_KEY} \
-      --secret ${env:AWS_SECRET_ACCESS_KEY} \
-      --profile custom-profile \
-      --overwrite
     - npm run deploy --stage dev
 
   # save build artifacts for publishing
