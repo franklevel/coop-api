@@ -37,6 +37,21 @@ describe("#traces [POST]", () => {
     expect(JSON.parse(result.body)).toMatchObject(expected);
   });
 
+  it("should fail on provide a wrong body", async () => {
+    const event = mock<APIGatewayProxyEvent>();
+    event.body = JSON.stringify({ wrongIP: "122.24.237.63" });
+
+    const context = {
+      functionName: "trace",
+    } as Context;
+    const result = await trace(event, context, null);
+
+    expect(JSON.parse(result.body)).toMatchObject({
+      _code: 400,
+      message: "You have to provide a valid IP address.",
+    });
+  });
+
   it("should return a succesful response", async () => {
     const expected = {
       longest_distance: {

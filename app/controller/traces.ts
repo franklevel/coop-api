@@ -29,10 +29,9 @@ export class TracesController extends TracesService {
   async trace(event: any, context?: Context): Promise<APIGatewayProxyResult> {
     console.log("functionName", context.functionName);
     try {
-      const { ip } = event.body;
-      if (!ip) throw new Error("You have to provide a valid IP address");
-
       const body: LookupDTO = JSON.parse(event.body);
+
+      if (!body.ip) throw new Error("You have to provide a valid IP address.");
 
       const {
         data: { country, countryCode, lat, lon, currency },
@@ -40,7 +39,7 @@ export class TracesController extends TracesService {
 
       const {
         data: { rates },
-      } = await this.currencyService.getRates(currency);
+      } = await this.currencyService.getMockedRates(currency);
 
       const fromUSA = distance({ lat, lon }, US_COORDS);
       if (country && fromUSA) {
