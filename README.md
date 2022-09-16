@@ -7,13 +7,13 @@ This is simple REST API that enables to perform an IP lookup returning useful in
 - REST API with typescript
 - MongoDB Atlas data storage
 - Multi-environment management under Serverless
-- Mocha unit tests and lambda-tester interface test
+- Jest unit tests and lambda-tester interface test
 - AWS lambda function log view
 
 ## Invoke the function locally
 
 ```bash
-serverless invoke local --function find
+serverless invoke local --function traces
 ```
 
 Which should result in:
@@ -25,7 +25,26 @@ Serverless: Typescript compiled.
 
 {
     "statusCode": 200,
-    "body": "{\"code\":0,\"message\":\"success\",\"data\":[{\"_id\":\"5dff21f71c9d440000a30dad\",\"createdAt\":\"2020-05-16T09:27:51.219Z\"},{\"_id\":\"5dff22ba1c9d440000a30dae\",\"createdAt\":\"2020-05-16T09:27:51.220Z\"}]}"
+    "body": {
+    "ip": "42.18.170.107",
+    "name": "South Korea",
+    "code": "KR",
+    "lat": 37.566,
+    "lon": 126.993,
+    "currencies": [
+        {
+            "iso": "ARS",
+            "symbol": "$",
+            "conversion_rate": 143.168492
+        },
+        {
+            "iso": "USD",
+            "symbol": "$",
+            "conversion_rate": 1
+        }
+    ],
+    "distance_to_usa": 3981.11
+  }
 }
 ```
 
@@ -56,32 +75,26 @@ Serverless: Packaging service...
 Serverless: Excluding development dependencies...
 Serverless: Uploading CloudFormation file to S3...
 Serverless: Uploading artifacts...
-Serverless: Uploading service aws-node-rest-api-typescript.zip file to S3 (1.86 MB)...
+Serverless: Uploading service cu-takehome.zip file to S3 (1.86 MB)...
 Serverless: Validating template...
 Serverless: Updating Stack...
 Serverless: Checking Stack update progress...
 ......................................
 Serverless: Stack update finished...
 Service Information
-service: aws-node-rest-api-typescript
+service: cu-takehome
 stage: dev
 region: us-east-1
-stack: aws-node-rest-api-typescript-dev
+stack: cu-takehome-dev
 resources: 32
 api keys:
   None
 endpoints:
-  POST - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books
-  PUT - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books/{id}
-  GET - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books
-  GET - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books/{id}
-  DELETE - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books/{id}
+  POST - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/traces
+  GET - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
 functions:
-  create: aws-node-rest-api-typescript-dev-create
-  update: aws-node-rest-api-typescript-dev-update
-  find: aws-node-rest-api-typescript-dev-find
-  findOne: aws-node-rest-api-typescript-dev-findOne
-  deleteOne: aws-node-rest-api-typescript-dev-deleteOne
+  traces: cu-takehome-dev-traces
+  statistics: cu-takehome-dev-statistics
 layers:
   None
 Serverless: Removing old service artifacts from S3...
@@ -93,7 +106,7 @@ Serverless: Run the "serverless" command to setup monitoring, troubleshooting an
 send an HTTP request directly to the endpoint using a tool like curl
 
 ```
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/books
+curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/traces
 ```
 
 ## Scaling
