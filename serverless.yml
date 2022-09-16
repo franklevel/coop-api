@@ -1,0 +1,34 @@
+service: cu-takehome
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment:
+    NODE_ENV: dev
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+package:
+  exclude:
+    - config/.env.stg
+    - config/.env.pro
+  include:
+    - config/.env.dev
+
+functions:
+  trace:
+    handler: app/handler.trace
+    timeout: 10
+    events:
+      - http:
+          path: traces
+          method: post
+  statistics:
+    handler: app/handler.statistics
+    timeout: 10
+    events:
+      - http:
+          path: statistics
+          method: get

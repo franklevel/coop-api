@@ -1,0 +1,88 @@
+image: node:14.19.0
+
+# define pipeline stages
+stages:
+  - build
+  - test
+  - dev
+  - prod
+
+# install all the build dependencies
+install_dependencies:
+  stage: build
+  script:
+    - npm install
+
+# run dummy test command
+test:
+  stage: test
+  needs:
+    - install_dependencies
+  script: npm run test
+
+# deploy to develop enviroment
+deploy_develop:
+  stage: dev
+  environment:
+    name: develop
+  needs:
+    - install_dependencies
+    - test
+  script:
+    - npm run build
+    - npm run deploy --stage dev
+
+  # save build artifacts for publishing
+  artifacts:
+    paths:
+      - .serverless
+
+  # only build when updates are made to "develop" branch
+  only:
+    - develop
+
+deploy_production:
+  stage: prod
+
+  # tag deploy to an environment for tracking
+  environment:
+    name: production
+  script:
+    - npm run build
+    - npm run deploy --stage prod
+
+  # save build artifacts for publishing
+  artifacts:
+    paths:
+      - .serverless
+
+  # only build when updates are made to "main" branch
+  only:
+    - main
+
+deploy_test:
+  stage: test
+
+  # tag deploy to an environment for tracking
+  environment:
+    name: test
+  script:
+    - npm run build
+    - npm run deploy --stage test
+
+  # save build artifacts for publishing
+  artifacts:
+    paths:
+      - .serverless
+
+  # only build when updates are made to "staging" branch
+  only:
+    - staging
+
+# reinstall dependencies when it's needed
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
