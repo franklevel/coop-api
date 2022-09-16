@@ -28,25 +28,26 @@ export class TracesController extends TracesService {
    */
   async trace(event: any, context?: Context): Promise<APIGatewayProxyResult> {
     console.log("functionName", context.functionName);
-    const body: LookupDTO = JSON.parse(event.body);
-    console.log(body);
-
     try {
+      const { ip } = event.body;
+      if (!ip) throw new Error("You have to provide a valid IP address");
+
+      const body: LookupDTO = JSON.parse(event.body);
+
       const {
         data: { country, countryCode, lat, lon, currency },
       } = await this.lookupService.getInfo(body.ip);
 
       const {
         data: { rates },
-      } = await this.currencyService.getMockedRates(currency);
+      } = await this.currencyService.getRates(currency);
 
       const fromUSA = distance({ lat, lon }, US_COORDS);
       if (country && fromUSA) {
-        const result = await this.createTrace({
+        await this.createTrace({
           country: country,
           distance: fromUSA,
         });
-        console.log(result);
       }
       const currencies = ratesToCurrencies(rates);
       return MessageUtil.success({

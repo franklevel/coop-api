@@ -1,6 +1,7 @@
-# Serverless Nodejs Rest API with TypeScript And MongoDB Atlas
+# IP Tracing App
 
-This is simple REST API that enables to perform an IP lookup returning useful information.
+This is simple REST API that runs an IP lookup returning distances between the origin IP address and the United States default coordinates.
+It also retrieves a information about the currencies of both countries and some statistics.
 
 ## Use Cases
 
@@ -8,7 +9,7 @@ This is simple REST API that enables to perform an IP lookup returning useful in
 - MongoDB Atlas data storage
 - Multi-environment management under Serverless
 - Jest unit tests and lambda-tester interface test
-- AWS lambda function log view
+- AWS Lambda function log view
 
 ## Invoke the function locally
 
@@ -54,6 +55,10 @@ Serverless: Typescript compiled.
 
 - Run `npm install` to install all the necessary dependencies.
 - Run `npm run local` use serverless offline to test locally.
+
+### To Execute the Unit Tests
+
+- Run `npm test` to execute the unit tests.
 
 ### Deploy on AWS, simply run:
 
