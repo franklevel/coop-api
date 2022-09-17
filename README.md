@@ -110,8 +110,23 @@ Serverless: Run the "serverless" command to setup monitoring, troubleshooting an
 
 send an HTTP request directly to the endpoint using a tool like curl
 
-```
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/traces
+```bash
+# Traces endpoint
+curl --location --request POST https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
+
+# Working traces endpoint
+curl --location --request POST 'https://ef407kc6v9.execute-api.us-east-1.amazonaws.com/dev/traces' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "ip": "55.129.69.200"
+}'
+
+
+# Statistics endpoint
+curl --location --request GET https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
+
+# Working statistics endpoint example
+curl --location --request GET 'https://ef407kc6v9.execute-api.us-east-1.amazonaws.com/dev/statistics'
 ```
 
 ## Scaling
