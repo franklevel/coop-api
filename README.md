@@ -1,55 +1,13 @@
-# IP Tracing App
+# Coop Booking App
 
-This is simple REST API that runs an IP lookup returning distances between the origin IP address and the United States default coordinates.
-It also retrieves a information about the currencies of both countries and some statistics.
+This is simple REST API that enables to book a car.
 
 ## Use Cases
 
 - REST API with typescript
-- MongoDB Atlas data storage
 - Multi-environment management under Serverless
 - Jest unit tests and lambda-tester interface test
 - AWS Lambda function log view
-
-## Invoke the function locally
-
-```bash
-serverless invoke local --function traces
-```
-
-Which should result in:
-
-```bash
-Serverless: Compiling with Typescript...
-Serverless: Using local tsconfig.json
-Serverless: Typescript compiled.
-
-{
-    "statusCode": 200,
-    "body": {
-    "ip": "42.18.170.107",
-    "name": "South Korea",
-    "code": "KR",
-    "lat": 37.566,
-    "lon": 126.993,
-    "currencies": [
-        {
-            "iso": "ARS",
-            "symbol": "$",
-            "conversion_rate": 143.168492
-        },
-        {
-            "iso": "USD",
-            "symbol": "$",
-            "conversion_rate": 1
-        }
-    ],
-    "distance_to_usa": 3981.11
-  }
-}
-```
-
-## Deploy
 
 ### To Test It Locally
 
@@ -70,63 +28,26 @@ $ npm run deploy
 $ serverless deploy
 ```
 
-The expected result should be similar to:
-
-```
-Serverless: Compiling with Typescript...
-Serverless: Using local tsconfig.json
-Serverless: Typescript compiled.
-Serverless: Packaging service...
-Serverless: Excluding development dependencies...
-Serverless: Uploading CloudFormation file to S3...
-Serverless: Uploading artifacts...
-Serverless: Uploading service cu-takehome.zip file to S3 (1.86 MB)...
-Serverless: Validating template...
-Serverless: Updating Stack...
-Serverless: Checking Stack update progress...
-......................................
-Serverless: Stack update finished...
-Service Information
-service: cu-takehome
-stage: dev
-region: us-east-1
-stack: cu-takehome-dev
-resources: 32
-api keys:
-  None
-endpoints:
-  POST - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/traces
-  GET - https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
-functions:
-  traces: cu-takehome-dev-traces
-  statistics: cu-takehome-dev-statistics
-layers:
-  None
-Serverless: Removing old service artifacts from S3...
-Serverless: Run the "serverless" command to setup monitoring, troubleshooting and testing.
-```
-
 ## Usage
 
-send an HTTP request directly to the endpoint using a tool like curl
+Send an HTTP request directly to the endpoint using a tool like curl
 
 ```bash
-# Traces endpoint
-curl --location --request POST https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
-
-# Working traces endpoint
-curl --location --request POST 'https://ef407kc6v9.execute-api.us-east-1.amazonaws.com/dev/traces' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "ip": "55.129.69.200"
-}'
+# booking endpoint
+curl --location --request POST http://localhost:3000/dev/booking
 
 
-# Statistics endpoint
-curl --location --request GET https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/statistics
+# booking endpoint with filters
+curl --location --request GET http://localhost:3000/dev/booking?dateFrom=2022-11-20&dateTo=2022-11-24
 
-# Working statistics endpoint example
-curl --location --request GET 'https://ef407kc6v9.execute-api.us-east-1.amazonaws.com/dev/statistics'
+
+# vehicles endpoint
+curl --location --request GET http://localhost:3000/dev/vehicles
+
+
+# vehicles endpoint with filters
+curl --location --request GET http://localhost:3000/dev/vehicles?excluded=ff-2000-01,cs-2014-01,fb-2018-01
+
 ```
 
 ## Scaling

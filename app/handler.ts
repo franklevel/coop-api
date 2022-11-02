@@ -10,19 +10,30 @@ dotenv.config({
   path: dotenvPath,
 });
 
-import { Traces } from "./model";
-import { LookupService } from "./service/lookup";
-import { TracesController } from "./controller/traces";
-import { CurrencyService } from "./service/currency";
+import { Bookings, Vehicles } from "./model";
+import { BookingService } from "./service/booking";
+import { BookingController } from "./controller/booking";
+import { VehiclesController } from "./controller/vehicles";
 
-const tracesController = new TracesController(
-  Traces,
-  new LookupService(),
-  new CurrencyService()
+const bookingController = new BookingController(Bookings);
+
+const vehiclesController = new VehiclesController(
+  Vehicles,
+  new BookingService(Bookings)
 );
 
-export const trace: Handler = (event: any, context: Context) => {
-  return tracesController.trace(event, context);
+export const booking: Handler = (event: any, context: Context) => {
+  console.log(context.functionName);
+  switch (event.httpMethod) {
+    case "POST":
+      return bookingController.create(event, context);
+    case "GET":
+      return bookingController.list(event, context);
+    default:
+      break;
+  }
 };
 
-export const statistics: Handler = () => tracesController.statistics();
+export const vehicle: Handler = (event: any, context: Context) => {
+  return vehiclesController.available(event, context);
+};

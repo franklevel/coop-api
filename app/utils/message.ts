@@ -44,7 +44,7 @@ export class MessageUtil {
   static error(code: number = 400, message: string) {
     const result = new Result(StatusCode.success, null, code, message);
 
-    console.log(result.bodyToString());
+    //console.log(result.bodyToString());
     return result.bodyToString();
   }
 }
